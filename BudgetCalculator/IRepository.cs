@@ -6,4 +6,4 @@ namespace BudgetCalculator
     {
         List<Budget> GetAll();
     }
-}
+}   
