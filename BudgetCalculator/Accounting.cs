@@ -4,9 +4,25 @@ using System.Linq;
 
 namespace BudgetCalculator
 {
+    public class Period
+    {
+        public Period(DateTime start, DateTime end)
+        {
+            Start = start;
+            End = end;
+
+               if (start > end)
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        public DateTime Start { get; private set; }
+        public DateTime End { get; private set; }
+    }
+
     public class Accounting
     {
-        // pushtest
         private readonly IRepository<Budget> _repo;
 
         public Accounting(IRepository<Budget> repo)
@@ -14,14 +30,14 @@ namespace BudgetCalculator
             _repo = repo;
         }
 
-        public decimal Calculate(DateTime start, DateTime end)
-        {
-            if (start > end)
-            {
-                throw new ArgumentException();
-            }
 
-            return IsSameMonth(start, end)
+
+        public decimal TotalAmount(DateTime start, DateTime end)
+        {
+            Period period = new Period(start, end);
+         
+
+            return IsSameMonth(period)
                 ? GetOneMonthAmount(start, end)
                 : GetRangeMonthAmount(start, end);
         }
@@ -49,9 +65,9 @@ namespace BudgetCalculator
             return total;
         }
 
-        private bool IsSameMonth(DateTime start, DateTime end)
+        private bool IsSameMonth(Period period)
         {
-            return start.Year == end.Year && start.Month == end.Month;
+            return period.Start.Year == period.End.Year && period.Start.Month == period.End.Month;
         }
 
         private int GetOneMonthAmount(DateTime start, DateTime end)
