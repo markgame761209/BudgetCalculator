@@ -40,7 +40,7 @@ namespace BudgetCalculator
             var start = new DateTime(2018, 3, 1);
             var end = new DateTime(2018, 2, 1);
 
-            Action actual = () => target.Calculate(start, end);
+            Action actual = () => target.TotalAmount(start, end);
 
             actual.Should().Throw<ArgumentException>();
         }
@@ -105,7 +105,7 @@ namespace BudgetCalculator
 
         private void TotalAmountShouldBe(int expected, DateTime start, DateTime end)
         {
-            target.Calculate(start, end).Should().Be(expected);
+            target.TotalAmount(start, end).Should().Be(expected);
         }
     }
 }
